@@ -1,16 +1,15 @@
-## Hi there 👋
+# Hi there 👋 
 
-<!--
-**Ericwasepic127/Ericwasepic127** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+***Hello for anyone reading this! My name is Erkhembayar Batjargal (Батжаргалын Эрхэмбаяр) and I'm 12 years old (13 in December)!***
 
-Here are some ideas to get you started:
+## My favourite creations:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- [log-the-app](https://github.com/Ericwasepic127/log-the-app) **A logging utility for Python**
+- [simple-server](https://github.com/Ericwasepic127/simple-server) **A super simple server application has GUI**
+- [py3repl](https://ericwasepic127.github.io/hello.html) **Python In Browser!**
+
+## Don't miss MongolOS! @MongolOS1162 [MongolOS Official Site](https://mongolos1162.github.io/)
+
+## If you got questions to me, 
+
+**... you can feel free to ask - Just make issue in this repo!**
