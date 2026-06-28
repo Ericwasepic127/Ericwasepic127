@@ -1,6 +1,9 @@
 # Hi there 👋 
 
-***Hello for anyone reading this! My name is Erkhembayar Batjargal (Батжаргалын Эрхэмбаяр) and I'm 12 years old (13 in December)!***
+***Hello for anyone reading this! My name is Erkhembayar Batjargal (Батжаргалын Эрхэмбаяр) and I'm 12 years old (13 in December)! I'm Mongolian***
+
+# [A link to my website](ericwasepic127.github.io)
+Thanks for visiting!
 
 ## My favourite creations:
 
