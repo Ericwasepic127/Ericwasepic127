@@ -3,10 +3,16 @@
 
 # Hi there 👋 
 
-***Hello for anyone reading this! My name is Erkhembayar Batjargal (Батжаргалын Эрхэмбаяр) and I'm 12 years old (13 in December)! I'm Mongolian.***
+![Profile views count](https://komarev.com/ghpvc/?username=ericwasepic127&color=red&abbreviated=true)
+![GitHub followers count](https://img.shields.io/github/followers/ericwasepic127)
 
-# [A link to my website](ericwasepic127.github.io)
+![My GitHub streak](https://github-readme-streak-stats.herokuapp.com/?user=ericwasepic127&theme=radical)
+
+***Hello for anyone reading this! My name is Erkhembayar Batjargal (Батжаргалын Эрхэмбаяр) and I'm 12 years old (13 in December)! I'm Mongolian.*** 
+
+# [A link to my website](https://ericwasepic127.github.io/)
 Thanks for visiting!
+![My logo here!](https://ericwasepic127.github.io/logo.png)
 
 ## My favourite creations:
 
