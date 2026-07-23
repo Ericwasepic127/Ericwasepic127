@@ -37,7 +37,8 @@ How to use?
     import pyscript, asyncio
     data = asyncio.run(pyscript.fetch("https://raw.githubusercontent.com/Ericwasepic127/Ericwasepic127/refs/heads/main/m2w.py"))
     with open("m2w.py", "w") as file:
-        file.write(data)
+        if data.ok:
+            file.write(asyncio.run(data.text()))
     ```
 2. After load, import it
   * Import just as `import m2w`
