@@ -5,7 +5,7 @@ def numput(prompt, default=0, do=int,use=input):
     print(f"Non-numberic value - defaulting to {default}")
     d = default
   return d
-import time
+import time, random
 print("---😉 Secure the ATM! 😎---")
 print("Welcome to 'Secure the ATM' game!")
 print("Don't let attackers in!")
@@ -18,7 +18,7 @@ do = """
 6. Exit 
 Anything else: Show this"""
 
-rule = {}
+rule = {"Transicate_per_minute": 1000, "Code_attempts_count": 60, "Max_money_tranication": 10000000}
 def chgrl(nm, vl):
     global rule
     rule[nm] = vl
@@ -55,63 +55,124 @@ while 1:
         print(f"Rule: {m}, Value: {y}")
      print()
    elif x == 4:
-      print("[INFO]:", "Normal user accessing ...")
+      print("[INFO]:", f"Normal user accessing ... Name: {random.choice(["alice", "john", "pal", "alex", "steve", "max", "eric", "biff", "kipper"]) + str(random.randint(1000, 9999))}")
       print("Entering pin ...")
       time.sleep(1.5)
-      if rule.get('Code_attempts_count', 20) < 1:
-         print("[ERROR]:", "Normal user cannot access using PIN code!")
+      pin_try = 5 if not random.randint(0, 5) else random.randint(1, 2)
+      if pin_try == 5:
+         print("User panicked! He forgot his pin and entered 5 times!")
+      if rule.get('Code_attempts_count', 20) < pin_try:
+         print("[ERROR]:", "Normal user cannot access using PIN code! Tries count:", pin_try)
          continue
       print("successful")
       time.sleep(0.4)
-      print("Getting his money $100 USD ...")
-      time.sleep(0.9)
-      if rule.get('Max_money_tranication', 1000000) < 100:
-         print("[ERROR]:", "Normal user cannot get his money using money value $100!")
-         continue
-      if rule.get('Transicate_per_minute', 20) < 1:
-         print("[ERROR]:", "Normal user cannot get his money because he done 1 transaction!")
-         continue
+      dood = random.randint(1, random.randint(4, 10))
+      print("User requests", dood, "transition")
+      for ac in range(1, dood+1):
+          a = random.randint(50, 200)
+          print(f"Getting his money ${a} USD ...")
+          time.sleep(0.9)
+          if rule.get('Max_money_tranication', 1000000) < a:
+             print("[ERROR]:", f"Normal user cannot get his money using money value ${a}!")
+             continue
+          if rule.get('Transicate_per_minute', 20) < ac:
+             print("[ERROR]:", f"Normal user cannot get his money because he done {ac} transaction!")
+             continue
       print("successful")
       time.sleep(2)
       print("[INFO]: Attacker 1 coming!")
+      tried = random.randint(10, 50)
       print("Entering pin ... 7463", end="")
-      for z in [1111, 1234, 5715, 9999, 3846, 1027, 2836, 9876, 2319]:
+      for _ in "s"*tried:
            time.sleep(0.2)
-           print(f", {z}", end="")
+           z = random.randint(1000, 9999)
+           print(f", {z if not z == 2859 else 1628}", end="")
            
       print()
-      if rule.get('Code_attempts_count', 20) < 10:
+      if rule.get('Code_attempts_count', 20) < tried:
          print("Attacker cannot access using PIN code!")
          print("successfully protected money!")
       else:
          print("[ERROR]: Attacker scammed your money!")
          continue
       time.sleep(3)
+      print("[INFO]:", f"Normal user accessing ... Name: {random.choice(["alice", "john", "pal", "alex", "steve", "max", "eric", "biff", "kipper"]) + str(random.randint(1000, 9999))}")
+      print("Entering pin ...")
+      time.sleep(1.5)
+      pin_try = 5 if not random.randint(0, 5) else random.randint(1, 2)
+      if pin_try == 5:
+         print("User panicked! He forgot his pin and entered 5 times!")
+      if rule.get('Code_attempts_count', 20) < pin_try:
+         print("[ERROR]:", "Normal user cannot access using PIN code! Tries count:", pin_try)
+         continue
+      print("successful")
+      time.sleep(0.4)
+      dood = random.randint(1, random.randint(4, 10))
+      print("User requests", dood, "transition")
+      for ac in range(1, dood+1):
+          a = random.randint(50, 200)
+          print(f"Getting his money ${a} USD ...")
+          time.sleep(0.9)
+          if rule.get('Max_money_tranication', 1000000) < a:
+             print("[ERROR]:", f"Normal user cannot get his money using money value ${a}!")
+             continue
+          if rule.get('Transicate_per_minute', 20) < ac:
+             print("[ERROR]:", f"Normal user cannot get his money because he done {ac} transaction!")
+             continue
+      print("successful")
+      time.sleep(random.randint(1, 4))
       print("[INFO]: Attacker 2 coming!")
       print("Entering pin ... 2859")
       time.sleep(1.2)
       print("success")
-      if rule.get('Max_money_tranication', 1000000) < 100000:
-         print("Attacker cannot get money using $100000 amount!")
+      x = random.randint(100000, 10000000)
+      if rule.get('Max_money_tranication', 1000000) < x:
+         print(f"Attacker cannot get money using ${x} amount!")
          print("successfully protected money!")
       else:
          print("[ERROR]: Attacker scammed your money!")
          continue
       time.sleep(2.5)
+      print("[INFO]:", f"Normal user accessing ... Name: {random.choice(["alice", "john", "pal", "alex", "steve", "max", "eric", "biff", "kipper"]) + str(random.randint(1000, 9999))}")
+      print("Entering pin ...")
+      time.sleep(1.5)
+      pin_try = 5 if not random.randint(0, 5) else random.randint(1, 2)
+      if pin_try == 5:
+         print("User panicked! He forgot his pin and entered 5 times!")
+      if rule.get('Code_attempts_count', 20) < pin_try:
+         print("[ERROR]:", "Normal user cannot access using PIN code! Tries count:", pin_try)
+         continue
+      print("successful")
+      time.sleep(0.4)
+      dood = random.randint(1, random.randint(4, 10))
+      print("User requests", dood, "transition")
+      for ac in range(1, dood+1):
+          a = random.randint(50, 200)
+          print(f"Getting his money ${a} USD ...")
+          time.sleep(0.9)
+          if rule.get('Max_money_tranication', 1000000) < a:
+             print("[ERROR]:", f"Normal user cannot get his money using money value ${a}!")
+             continue
+          if rule.get('Transicate_per_minute', 1000) < ac:
+             print("[ERROR]:", f"Normal user cannot get his money because he done {ac} transaction!")
+             continue
+      print("successful")
+      time.sleep(2)
       print("[INFO]: Attacker 3 coming!")
       print("Entering pin ... 2859")
       time.sleep(0.92)
       print("success")
-      for l in range(1, 16):
-         print("Getting $100 USD ...")
+      cx = random.randint(16, 101)
+      for l in range(1, cx):
+         print(f"Getting ${random.randint(50, 200)} USD ...")
          time.sleep(0.7)
-         if rule.get('Transicate_per_minute', 20) < l:
+         if rule.get('Transicate_per_minute', 1000) < l:
             print(f"Attacker cannot transaction money repeated {l} times!")
             print("successfully protected money!")
             break
          else:
             print("success")
-      print("[ERROR]: Attacker scammed your money!") if l == 15 else None
+      print("[ERROR]: Attacker scammed your money!") if l == cx else None
             
    else:
       print(do)
