@@ -72,7 +72,8 @@ class Worker:
     self.worker.onmessage = create_proxy(on_message)
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
-   obj = self.worker.dom
+   from polyscript import xworker
+   obj = xworker.sync
    js.window = obj[0]
    js.document = obj[1]
    js.mainSelf = obj[2]
