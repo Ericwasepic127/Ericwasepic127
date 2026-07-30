@@ -17,7 +17,7 @@ How to use?
     `connect = m2w.Worker()`
 4. Send messages using `connect.sendmsg(Message_here)` and recieve using `connect.getmsg`
 """
-import js
+import js, time
 from pyodide.ffi import create_proxy
 
 class Main:
@@ -75,7 +75,10 @@ class Worker:
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
    from polyscript import xworker
-   obj = xworker.sync.dom()
+   obj = xworker.sync.dom.callPromising()
+   while not obj.done():
+    time.sleep(.1)
+   obj = obj.result()
    js.window = obj[0]
    js.document = obj[1]
    js.mainSelf = obj[2]
