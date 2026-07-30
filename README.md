@@ -1,6 +1,7 @@
 # 📱 I love to use android!
 
 ***Because Android was open!** [But does they?](https://keepandroidopen.org/)*
+[![](https://img.shields.io/badge/Make_Android_open_back_join_with_me-KeepAndroidOpen-red)](https://keepandroidopen.org/)
 
 # Hi there 👋 
 
@@ -54,5 +55,5 @@ How to use?
 - It is a simple game written in Python, and simulates ATM working
 Attackers will try to scam your ATM! Create Rules to protect it! **Also don't block regular users too!**
 ### How to run?
-- You can run this without installing python, download the [safeATM.py](./safeATM.py), open https://ericwasepic127.github.io/ide.html and click at `Upload code from storage`. Then click `Run` when it's available to click, and follow instructions on screen!
+- You can run this without installing python, download the [safeATM.py](./safeATM.py), open https://ericwasepic127.github.io/ide.html and click at `Upload code from storage`. Then click `Run` when it's available to click, and follow instructions on screen! Or just go to [this link](https://ericwasepic127.github.io/ide.html?url=https://raw.githubusercontent.com/Ericwasepic127/ericwasepic127/refs/heads/main/safeATM.py) to get into without any downloading!
 If you have local environment, download the [safeATM.py](./safeATM.py) and run as `python3 safeATM.py`
