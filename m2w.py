@@ -34,9 +34,7 @@ class Main:
       self.worker.onmessage = create_proxy(on_message)
     def giveDOM(self):
          """Gives DOM control"""
-         self.worker.sync.document = js.document
-         self.worker.sync.window = js.window
-         self.worker.sync.mainSelf = js.self
+         self.worker.sync.dom = [js.window, js.document, js.self]
          
     def handler(self, onmessage):
      """When message received, change handler to given function (Message will given to function's first argument)"""
@@ -74,6 +72,8 @@ class Worker:
     self.worker.onmessage = create_proxy(on_message)
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
-   js.window = self.worker.sync.window
-   js.document = self.worker.sync.document
-   js.mainSelf = self.worker.sync.mainSelf
+   obj = self.worker.sync.dom
+   js.window = obj[0]
+   js.document = obj[1]
+   js.mainSelf = obj[2]
+        
