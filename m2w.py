@@ -73,7 +73,7 @@ class Worker:
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
    from polyscript import xworker
-   obj = xworker.sync.dom
+   obj = xworker.sync.dom.to_py()
    js.window = obj[0]
    js.document = obj[1]
    js.mainSelf = obj[2]
