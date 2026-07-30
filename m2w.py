@@ -32,6 +32,22 @@ class Main:
           self.getmsg = event.data
           self.msgs.append(event.data)
       self.worker.onmessage = create_proxy(on_message)
+    def giveDOM(self):
+         """Gives DOM control"""
+         self.worker.document = js.document
+         self.worker.window = js.window
+         
+    def handler(self, onmessage):
+     """When message received, change handler to given function (Message will given to function's first argument)"""
+     def on_message(event):
+      onmessage(event.data)
+     self.worker.onmessage = create_proxy(on_message)
+    def defaultHandler(self):
+     """When you modified handler, this makes onto default one"""
+     def on_message(event):
+          self.getmsg = event.data
+          self.msgs.append(event.data)
+     self.worker.onmessage = create_proxy(on_message)
 
 class Worker:
   """Worker thread only, it will send messages to Main in Main"""
@@ -44,3 +60,15 @@ class Worker:
           self.getmsg = event.data
           self.msgs.append(event.data)
       self.worker.onmessage = create_proxy(on_message)
+  def handler(self, onmessage):
+    """When message received, change handler to given function (Message will given to function's first argument)"""
+    def on_message(event):
+     onmessage(event.data)
+    self.worker.onmessage = create_proxy(on_message)
+  def defaultHandler(self):
+    """When you modified handler, this makes onto default one"""
+    def on_message(event):
+          self.getmsg = event.data
+          self.msgs.append(event.data)
+    self.worker.onmessage = create_proxy(on_message)
+    
