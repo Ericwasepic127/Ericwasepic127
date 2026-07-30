@@ -53,8 +53,7 @@ class Main:
 class Worker:
   """Worker thread only, it will fail on Main"""
   def __init__(self):
-      from polyscript import xworker
-      self.worker = xworker
+      self.worker = js.self
       self.sendmsg = self.worker.postMessage
       self.getmsg = None
       self.msgs = []
