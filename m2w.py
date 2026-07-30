@@ -34,7 +34,7 @@ class Main:
       self.worker.onmessage = create_proxy(on_message)
     def giveDOM(self):
          """Gives DOM control"""
-         warnings.warn("giveDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!"", DeprecationWarning, stack_level=2)
+         warnings.warn("giveDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stacklevel=2)
          def func(event):
           return [js.window, js.document, js.self]
          self.worker.sync.dom = create_proxy(func)
@@ -75,7 +75,7 @@ class Worker:
     self.worker.onmessage = create_proxy(on_message)
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
-   warnings.warn("getDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stack_level=2)
+   warnings.warn("getDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stacklevel=2)
    from polyscript import xworker
    obj = xworker.sync.dom.callPromising()
    while not obj.done():
