@@ -34,9 +34,9 @@ class Main:
       self.worker.onmessage = create_proxy(on_message)
     def giveDOM(self):
          """Gives DOM control"""
-         self.worker.self.document = js.document
-         self.worker.self.window = js.window
-         self.worker.self.mainSelf = js.self
+         self.worker.sync.document = js.document
+         self.worker.sync.window = js.window
+         self.worker.sync.mainSelf = js.self
          
     def handler(self, onmessage):
      """When message received, change handler to given function (Message will given to function's first argument)"""
@@ -51,9 +51,10 @@ class Main:
      self.worker.onmessage = create_proxy(on_message)
 
 class Worker:
-  """Worker thread only, it will send messages to Main in Main"""
+  """Worker thread only, it will fail on Main"""
   def __init__(self):
-      self.worker = js.self
+      from polyscript import xworker
+      self.worker = xworker
       self.sendmsg = self.worker.postMessage
       self.getmsg = None
       self.msgs = []
@@ -72,4 +73,8 @@ class Worker:
           self.getmsg = event.data
           self.msgs.append(event.data)
     self.worker.onmessage = create_proxy(on_message)
-    
+  def getDOM(self):
+   """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
+   js.window = self.worker.sync.window
+   js.document = self.worker.sync.document
+   js.mainSelf = self.worker.sync.mainSelf
