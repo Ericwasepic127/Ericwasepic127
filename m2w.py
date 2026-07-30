@@ -34,8 +34,9 @@ class Main:
       self.worker.onmessage = create_proxy(on_message)
     def giveDOM(self):
          """Gives DOM control"""
-         self.worker.document = js.document
-         self.worker.window = js.window
+         self.worker.self.document = js.document
+         self.worker.self.window = js.window
+         self.worker.self.mainSelf = js.self
          
     def handler(self, onmessage):
      """When message received, change handler to given function (Message will given to function's first argument)"""
