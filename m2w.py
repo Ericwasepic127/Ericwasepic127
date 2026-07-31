@@ -3,11 +3,11 @@
 How to use?
 1. On main.py and worker.py, load up m2w.py
   * m2w loading tip:
-    import pyscript, asyncio
-    data = asyncio.run(pyscript.fetch("https://raw.githubusercontent.com/Ericwasepic127/Ericwasepic127/refs/heads/main/m2w.py"))
+    import pyscript
+    data = await pyscript.fetch("https://raw.githubusercontent.com/Ericwasepic127/Ericwasepic127/refs/heads/main/m2w.py")
     with open("m2w.py", "w") as file:
         if data.ok:
-           file.write(asyncio.run(data.text()))
+           file.write(await data.text())
 2. After load, import it
   * Import just as `import m2w`
 3. If it's on ...
@@ -15,6 +15,8 @@ How to use?
     `connect = m2w.Main()`
   - Worker, then use
     `connect = m2w.Worker()`
+  - If you want Tab to Tab communication, then use
+    `connect = m2w.T2T() # you can add id parameter for another broadcasting channel`
 4. Send messages using `connect.sendmsg(Message_here)` and recieve using `connect.getmsg`
 """
 import js, time, warnings
@@ -84,4 +86,59 @@ class Worker:
    js.window = obj[0]
    js.document = obj[1]
    js.mainSelf = obj[2]
+
+class Tab:
+    """Tab to Tab connection"""
+    def __init__(self, id="pythonChannel"):
+        if not id:
+            raise Exception("Please give a ID")
+        self.worker = js.BroadcastChannel.new(id)
+        self.sendmsg = self.worker.postMessage
+        self.getmsg = None
+        self.msgs = []
+        self.id = id
+        def on_message(event):
+            self.getmsg = event.data
+            self.msgs.append(event.data)
+        self.worker.onmessage = create_proxy(on_message)
+    def handler(self, onmessage):
+        """When message received, change handler to given function (Message will given to function's first argument)"""
+        def on_message(event):
+            onmessage(event.data)
+        self.worker.onmessage = create_proxy(on_message)
+    def defaultHandler(self):
+        """When you modified handler, this makes onto default one"""
+        def on_message(event):
+            self.getmsg = event.data
+            self.msgs.append(event.data)
+        self.worker.onmessage = create_proxy(on_message)
+    def sendTab(self, name, value):
+        """Specifically sends value to 'name'-d Tab"""
+        self.sendmsg({"tabName": name, "content": value})
+
+class specTab(Tab):
+    """Targets specific named Tab"""
+    def __init__(self, name, id="pythonChannel"):
+        self.name = name
+        self.worker = js.BroadcastChannel.new(id)
+        self.sendmsg = self.worker.postMessage
+        self.getmsg = None
+        self.msgs = []
+        self.id = id
+        def on_message(event):
+            if not (event.data.get("tabName") == self.name):
+                return
+            self.getmsg = event.data
+            self.msgs.append(event.data)
+        self.worker.onmessage = create_proxy(on_message)
+    def defaultHandler(self):
+        """When you modified handler, this makes onto default one"""
+        def on_message(event):
+            if not (event.data.get("tabName") == self.name):
+                return
+            else:
+                event.data = event.data.get("content") or event.data
+            self.getmsg = event.data
+            self.msgs.append(event.data)
+        self.worker.onmessage = create_proxy(on_message)
         
