@@ -17,6 +17,8 @@ How to use?
     `connect = m2w.Worker()`
   - If you want Tab to Tab communication, then use
     `connect = m2w.Tab() # you can add id parameter for another broadcasting channel`
+  - If you want filtered Tab to Tab communication, then use
+    `connect = m2w.specTab('name_to_give') # you can id parameter for another broadcasting channel`
 4. Send messages using `connect.sendmsg(Message_here)` and recieve using `connect.getmsg`
 """
 import js, time, warnings
@@ -124,7 +126,7 @@ class Tab:
         """Specifically sends value to 'name'-d Tab"""
         self.sendmsg({"tabName": name, "content": value})
 
-class specTab(Tab):
+class Tab(Tab):
     """Targets specific named Tab"""
     def __init__(self, name, id="pythonChannel"):
         self.name = name
@@ -140,9 +142,13 @@ class specTab(Tab):
         def on_message(event):
             data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
             if not (type(data) == dict):
+                self.getmsg = data.get("content", data)
+                self.msgs.append(data.get("content", data))
                 return
             else:
                 if not (data.get("tabName") == self.name):
+                    self.getmsg = data.get("content", data)
+                    self.msgs.append(data.get("content", data))
                     return
                 data = data.get("content", data)
                 onmessage(data)
@@ -153,9 +159,13 @@ class specTab(Tab):
         def on_message(event):
             data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
             if not (type(data) == dict):
+                self.getmsg = data
+                self.msgs.append(data)
                 return
             else:
                 if not (data.get("tabName") == self.name):
+                    self.getmsg = data.get("content", data)
+                    self.msgs.append(data.get("content", data))
                     return
                 data = data.get("content", data)
             self.getmsg = data
