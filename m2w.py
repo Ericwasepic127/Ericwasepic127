@@ -12,11 +12,11 @@ How to use?
   * Import just as `import m2w`
 3. If it's on ...
   - Main, then use
-    `connect = m2w.Main()`
+    `connect = m2w.Main() # you can pass id parameter as worker id (like #worker)`
   - Worker, then use
     `connect = m2w.Worker()`
   - If you want Tab to Tab communication, then use
-    `connect = m2w.T2T() # you can add id parameter for another broadcasting channel`
+    `connect = m2w.Tab() # you can add id parameter for another broadcasting channel`
 4. Send messages using `connect.sendmsg(Message_here)` and recieve using `connect.getmsg`
 """
 import js, time, warnings
