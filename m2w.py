@@ -40,15 +40,23 @@ class Main:
          self.worker.sync.dom = create_proxy(func)
      
     def handler(self, onmessage):
-     """When message received, change handler to given function (Message will given to function's first argument)"""
-     def on_message(event):
-      onmessage(event.data)
-     self.worker.onmessage = create_proxy(on_message)
+      """When message received, change handler to given function (Message will given to function's first argument)"""
+      def on_message(event):
+       if hasattr(event.data, "to_py"):
+         data = event.data.to_py()
+       else:
+         data = event.data
+       onmessage(data)
+      self.worker.onmessage = create_proxy(on_message)
     def defaultHandler(self):
      """When you modified handler, this makes onto default one"""
      def on_message(event):
-          self.getmsg = event.data.to_py()
-          self.msgs.append(event.data.to_py())
+          if hasattr(event.data, "to_py"):
+              self.getmsg = event.data.to_py()
+              self.msgs.append(event.data.to_py())
+          else:
+              self.getmsg = event.data
+              self.msgs.append(event.data)
      self.worker.onmessage = create_proxy(on_message)
 
 class Worker:
@@ -63,13 +71,21 @@ class Worker:
   def handler(self, onmessage):
     """When message received, change handler to given function (Message will given to function's first argument)"""
     def on_message(event):
-     onmessage(event.data)
+     if hasattr(event.data, "to_py"):
+         data = event.data.to_py()
+     else:
+         data = event.data
+     onmessage(data)
     self.worker.onmessage = create_proxy(on_message)
   def defaultHandler(self):
     """When you modified handler, this makes onto default one"""
     def on_message(event):
-          self.getmsg = event.data.to_py()
-          self.msgs.append(event.data.to_py())
+          if hasattr(event.data, "to_py"):
+              self.getmsg = event.data.to_py()
+              self.msgs.append(event.data.to_py())
+          else:
+              self.getmsg = event.data
+              self.msgs.append(event.data)
     self.worker.onmessage = create_proxy(on_message)
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
@@ -95,12 +111,12 @@ class Tab:
     def handler(self, onmessage):
         """When message received, change handler to given function (Message will given to function's first argument)"""
         def on_message(event):
-            onmessage(event.data.to_py())
+            onmessage(event.data.to_py() if hasattr(event.data, "to_py") else event.data)
         self.worker.onmessage = create_proxy(on_message)
     def defaultHandler(self):
         """When you modified handler, this makes onto default one"""
         def on_message(event):
-            data = event.data.to_py()
+            data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
             self.getmsg = data
             self.msgs.append(data)
         self.worker.onmessage = create_proxy(on_message)
@@ -122,10 +138,12 @@ class specTab(Tab):
     def defaultHandler(self):
         """When you modified handler, this makes onto default one"""
         def on_message(event):
-            data = event.data.to_py()
-            if not (data.get("tabName") == self.name):
+            data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
+            if not (type(data) == dict):
                 return
             else:
+                if not (data.get("tabName") == self.name):
+                    return
                 data = data.get("content", data)
             self.getmsg = data
             self.msgs.append(data)
