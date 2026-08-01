@@ -126,7 +126,7 @@ class Tab:
         """Specifically sends value to 'name'-d Tab"""
         self.sendmsg({"tabName": name, "content": value})
 
-class Tab(Tab):
+class specTab(Tab):
     """Targets specific named Tab"""
     def __init__(self, name, id="pythonChannel"):
         self.name = name
