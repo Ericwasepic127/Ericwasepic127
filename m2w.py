@@ -20,13 +20,13 @@ How to use?
 4. Send messages using `connect.sendmsg(Message_here)` and recieve using `connect.getmsg`
 """
 import js, time, warnings
-from pyodide.ffi import create_proxy
+from pyodide.ffi import create_proxy, to_js
 
 class Main:
     """Main thread only, it will crash in Worker"""
     def __init__(self, id='script[type="py"][terminal]'):
       self.worker = js.document.querySelector(id).xworker
-      self.sendmsg = self.worker.postMessage
+      self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
       self.getmsg = None
       self.msgs = []
       self.id = id
@@ -57,7 +57,7 @@ class Worker:
   """Worker thread only, it will fail on Main"""
   def __init__(self):
       self.worker = js.self
-      self.sendmsg = self.worker.postMessage
+      self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
       self.getmsg = None
       self.msgs = []
       def on_message(event):
@@ -78,8 +78,8 @@ class Worker:
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
    warnings.warn("getDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stacklevel=2)
-   from polyscript import xworker
-   obj = xworker.sync.dom.callPromising()
+   from pyscript import sync
+   obj = sync.dom.callPromising()
    while not obj.done():
     time.sleep(.1)
    obj = obj.result()
@@ -93,7 +93,7 @@ class Tab:
         if not id:
             raise Exception("Please give a ID")
         self.worker = js.BroadcastChannel.new(id)
-        self.sendmsg = self.worker.postMessage
+        self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
         self.getmsg = None
         self.msgs = []
         self.id = id
@@ -121,7 +121,7 @@ class specTab(Tab):
     def __init__(self, name, id="pythonChannel"):
         self.name = name
         self.worker = js.BroadcastChannel.new(id)
-        self.sendmsg = self.worker.postMessage
+        self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
         self.getmsg = None
         self.msgs = []
         self.id = id
