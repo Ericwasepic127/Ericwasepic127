@@ -142,8 +142,8 @@ class specTab(Tab):
         def on_message(event):
             data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
             if not (type(data) == dict):
-                self.getmsg = data.get("content", data)
-                self.msgs.append(data.get("content", data))
+                self.getmsg = data 
+                self.msgs.append(data)
                 return
             else:
                 if not (data.get("tabName") == self.name):
