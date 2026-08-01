@@ -30,10 +30,8 @@ class Main:
       self.getmsg = None
       self.msgs = []
       self.id = id
-      def on_message(event):
-          self.getmsg = event.data
-          self.msgs.append(event.data)
-      self.worker.onmessage = create_proxy(on_message)
+      self.defaultHandler()
+        
     def giveDOM(self):
          """Gives DOM control"""
          warnings.warn("giveDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stacklevel=2)
@@ -49,8 +47,8 @@ class Main:
     def defaultHandler(self):
      """When you modified handler, this makes onto default one"""
      def on_message(event):
-          self.getmsg = event.data
-          self.msgs.append(event.data)
+          self.getmsg = event.data.to_py()
+          self.msgs.append(event.data.to_py())
      self.worker.onmessage = create_proxy(on_message)
 
 class Worker:
@@ -60,10 +58,8 @@ class Worker:
       self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
       self.getmsg = None
       self.msgs = []
-      def on_message(event):
-          self.getmsg = event.data
-          self.msgs.append(event.data)
-      self.worker.onmessage = create_proxy(on_message)
+      self.defaultHandler()
+      
   def handler(self, onmessage):
     """When message received, change handler to given function (Message will given to function's first argument)"""
     def on_message(event):
@@ -72,17 +68,14 @@ class Worker:
   def defaultHandler(self):
     """When you modified handler, this makes onto default one"""
     def on_message(event):
-          self.getmsg = event.data
-          self.msgs.append(event.data)
+          self.getmsg = event.data.to_py()
+          self.msgs.append(event.data.to_py())
     self.worker.onmessage = create_proxy(on_message)
   def getDOM(self):
    """Gets DOM from main thread (you need to do connect.giveDOM() at main)"""
    warnings.warn("getDOM() isn't working and it's not maintained, so please do not care when it doesn't works\nAlso you can clone or copy this m2w and build working solution if you want!", DeprecationWarning, stacklevel=2)
    from pyscript import sync
-   obj = sync.dom.callPromising()
-   while not obj.done():
-    time.sleep(.1)
-   obj = obj.result()
+   obj = sync.dom()
    js.window = obj[0]
    js.document = obj[1]
    js.mainSelf = obj[2]
@@ -97,20 +90,19 @@ class Tab:
         self.getmsg = None
         self.msgs = []
         self.id = id
-        def on_message(event):
-            self.getmsg = event.data
-            self.msgs.append(event.data)
-        self.worker.onmessage = create_proxy(on_message)
+        self.defaultHandler()
+    
     def handler(self, onmessage):
         """When message received, change handler to given function (Message will given to function's first argument)"""
         def on_message(event):
-            onmessage(event.data)
+            onmessage(event.data.to_py())
         self.worker.onmessage = create_proxy(on_message)
     def defaultHandler(self):
         """When you modified handler, this makes onto default one"""
         def on_message(event):
-            self.getmsg = event.data
-            self.msgs.append(event.data)
+            data = event.data.to_py()
+            self.getmsg = data
+            self.msgs.append(data)
         self.worker.onmessage = create_proxy(on_message)
     def sendTab(self, name, value):
         """Specifically sends value to 'name'-d Tab"""
@@ -125,20 +117,17 @@ class specTab(Tab):
         self.getmsg = None
         self.msgs = []
         self.id = id
-        def on_message(event):
-            if not (event.data.get("tabName") == self.name):
-                return
-            self.getmsg = event.data
-            self.msgs.append(event.data)
-        self.worker.onmessage = create_proxy(on_message)
+        self.defaultHandler()
+        
     def defaultHandler(self):
         """When you modified handler, this makes onto default one"""
         def on_message(event):
-            if not (event.data.get("tabName") == self.name):
+            data = event.data.to_py()
+            if not (data.get("tabName") == self.name):
                 return
             else:
-                event.data = event.data.get("content") or event.data
-            self.getmsg = event.data
-            self.msgs.append(event.data)
+                data = data.get("content", data)
+            self.getmsg = data
+            self.msgs.append(data)
         self.worker.onmessage = create_proxy(on_message)
         
