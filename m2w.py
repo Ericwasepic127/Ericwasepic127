@@ -134,7 +134,20 @@ class specTab(Tab):
         self.msgs = []
         self.id = id
         self.defaultHandler()
-        
+
+    def handler(self, onmessage):
+        """When message received, change handler to given function (Message will given to function's first argument)"""
+        def on_message(event):
+            data = event.data.to_py() if hasattr(event.data, "to_py") else event.data
+            if not (type(data) == dict):
+                return
+            else:
+                if not (data.get("tabName") == self.name):
+                    return
+                data = data.get("content", data)
+                onmessage(data)
+        self.worker.onmessage = create_proxy(on_message)
+ 
     def defaultHandler(self):
         """When you modified handler, this makes onto default one"""
         def on_message(event):
