@@ -26,8 +26,12 @@ from pyodide.ffi import create_proxy, to_js
 
 class Main:
     """Main thread only, it will crash in Worker"""
-    def __init__(self, id='script[type="py"][terminal]'):
-      self.worker = js.document.querySelector(id).xworker
+    def __init__(self, id='script[type="py"][terminal]', wait=True):
+      obj = js.document.querySelector(id)
+      if wait:
+         while not hasattr(obj, "xworker"):
+             time.sleep(.1)
+      self.worker = obj.xworker
       self.sendmsg = lambda msg: self.worker.postMessage(to_js(msg))
       self.getmsg = None
       self.msgs = []
